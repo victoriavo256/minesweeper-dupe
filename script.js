@@ -74,10 +74,59 @@ function displayBoard() {
             tile.dataset.row = row;
             tile.dataset.col = col;
 
-            // make it clickable
+            // assign light or dark green color for checkered board pattern
+            if ((row%2 === 0 && col%2 === 0) || (row%2 === 1 && col%2 === 1)) {
+                tile.classList.add("grid-item-light");
+            } else {
+                tile.classList.add("grid-item-dark");
+            }
+
+            // when clicked, reveals bomb or number of nearby bombs
             tile.addEventListener("click", () => {
-                tile.innerHTML = board[row][col] === -1 ? '💣' : board[row][col];
-                tile.style.backgroundColor = '#bbb';
+                if (board[row][col] === -1) {
+                    // bomb tile
+                    tile.innerHTML = '💣';
+                    tile.style.backgroundColor = 'red';
+                } else if (board[row][col] === 0) {
+                    // empty tile
+                    tile.innerHTML = '';
+                } else if (board[row][col] === 1){
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkblue';
+                } else if (board[row][col] === 2) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkgreen';
+                } else if (board[row][col] === 3) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkred';
+                } else if (board[row][col] === 4) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkorchid';
+                } else if (board[row][col] === 5) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkorange';
+                } else if (board[row][col] === 6) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkcyan';
+                } else if (board[row][col] === 7) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkpink';
+                } else if (board[row][col] === 8) {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkolivegreen';
+                } else {
+                    tile.innerHTML = board[row][col];
+                    tile.style.color = 'darkslategrey';
+                }
+
+                // assign light or dark brown color for checkered board pattern 
+                if (board[row][col] != -1) {    // bomb tiles are red
+                    if ((row%2 === 0 && col%2 === 0) || (row%2 === 1 && col%2 === 1)) {
+                        tile.style.backgroundColor = 'rgb(255, 242, 171)';    // light
+                    } else {
+                        tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
+                    }
+                }
             });
 
             // add grid item to grid container
