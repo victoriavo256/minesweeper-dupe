@@ -13,10 +13,16 @@ let board = [
 ];  // 10 x 10
 const size = 10
 const numBombs = 10;
+const directions = [
+    [-1,-1], [-1,0], [-1,1],
+    [0,-1],          [0,1],
+    [1,-1],  [1,0],  [1,1]
+];
+// keeps track of number of revealed tiles - if >= (size * size) - numBombs, game ends
+let revealedTiles = 0;
 
 function initializeBoard() {
     
-
     // randomly populate grid with 10 bombs
     let placedBombs = 0;
     while (placedBombs < numBombs) {
@@ -29,12 +35,6 @@ function initializeBoard() {
     }
 
     // fill in non-bomb tiles with the number of bombs in their proximity
-    let directions = [
-        [-1,-1], [-1,0], [-1,1],
-        [0,-1],          [0,1],
-        [1,-1],  [1,0],  [1,1]
-    ];
-
     for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
             if (board[row][col] != -1) {  // tile is not a bomb
@@ -73,6 +73,7 @@ function displayBoard() {
             tile.className = "grid-item";
             tile.dataset.row = row;
             tile.dataset.col = col;
+            tile.dataset.value = board[row][col];
 
             // assign light or dark green color for checkered board pattern
             if ((row%2 === 0 && col%2 === 0) || (row%2 === 1 && col%2 === 1)) {
@@ -83,33 +84,64 @@ function displayBoard() {
 
             // when clicked, reveals bomb or number of nearby bombs
             tile.addEventListener("click", () => {
-                if (board[row][col] === -1) {
-                    // bomb tile
-                    tile.innerHTML = '💣';
-                    tile.style.backgroundColor = 'red';
-                    // TODO: gameover
-                } else if (board[row][col] === 0) {
-                    // empty tile
-                    tile.innerHTML = '';
-                } else {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = getTextColor(board[row][col]);
-                }
-
-                // assign light or dark brown color for checkered board pattern 
-                if (board[row][col] != -1) {    // bomb tiles are red
-                    if ((row%2 === 0 && col%2 === 0) || (row%2 === 1 && col%2 === 1)) {
-                        tile.style.backgroundColor = 'rgb(255, 242, 171)';    // light
-                    } else {
-                        tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
-                    }
-                }
+                revealTiles(tile);
             });
 
             // add grid item to grid container
             gridContainer.appendChild(tile);
         }
     }
+}
+
+// recursive function
+function revealTiles(tile) {
+    const row = Number(tile.dataset.row);
+    const col = Number(tile.dataset.col);
+    const value = Number(tile.dataset.value);
+
+    if (tile.classList.contains('revealed')) {
+        return;
+    }
+
+    if (value === -1) {     // is a bomb
+        tile.innerHTML = '💣';
+        tile.style.backgroundColor = 'red';
+        // TODO: gameOverLose();
+    } else if (value > 0) { // has nearby bombs
+        tile.innerHTML = value;
+        tile.style.color = getTextColor(value);   
+    } else {                // empty tile (recursively reveals nearby tiles!)
+        for (let [dx,dy] of directions) {
+            let newRow = row + dx;
+            let newCol = col + dy;
+            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
+                const adjTile = document.querySelector(`.grid-item[data-row='${newRow}'][data-col='${newCol}']`);
+                if (adjTile) {
+                    revealTiles(adjTile);
+                }
+                
+            }
+        }
+    }
+
+    // assign light or dark brown color for checkered board pattern 
+    if (tile.dataset.value != -1) {    // bomb tiles are red
+        if ((tile.dataset.row%2 === 0 && tile.dataset.col%2 === 0) || (tile.dataset.row%2 === 1 && tile.dataset.col%2 === 1)) {
+            tile.style.backgroundColor = 'rgb(255, 242, 171)';    // light
+        } else {
+            tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
+        }
+    }
+
+    tile.style.cursor = 'default';  // resets cursor to default
+
+    tile.classList.add('revealed');
+    revealedTiles++;
+    /* TODO: 
+    if (revealedTiles === (size * size) - numBombs) {
+        gameOverWin();
+    } */
+    
 }
 
 function getTextColor(num) {
