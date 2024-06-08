@@ -87,36 +87,13 @@ function displayBoard() {
                     // bomb tile
                     tile.innerHTML = '💣';
                     tile.style.backgroundColor = 'red';
+                    // TODO: gameover
                 } else if (board[row][col] === 0) {
                     // empty tile
                     tile.innerHTML = '';
-                } else if (board[row][col] === 1){
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkblue';
-                } else if (board[row][col] === 2) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkgreen';
-                } else if (board[row][col] === 3) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkred';
-                } else if (board[row][col] === 4) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkorchid';
-                } else if (board[row][col] === 5) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkorange';
-                } else if (board[row][col] === 6) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkcyan';
-                } else if (board[row][col] === 7) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkpink';
-                } else if (board[row][col] === 8) {
-                    tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkolivegreen';
                 } else {
                     tile.innerHTML = board[row][col];
-                    tile.style.color = 'darkslategrey';
+                    tile.style.color = getTextColor(board[row][col]);
                 }
 
                 // assign light or dark brown color for checkered board pattern 
@@ -132,6 +109,29 @@ function displayBoard() {
             // add grid item to grid container
             gridContainer.appendChild(tile);
         }
+    }
+}
+
+function getTextColor(num) {
+    switch(num) {
+        case 1:
+            return 'darkblue';
+        case 2:
+            return 'darkgreen';
+        case 3:
+            return 'darkred';
+        case 4:
+            return 'darkorchid';
+        case 5:
+            return 'darkorange';
+        case 6:
+            return 'darkcyan';
+        case 7:
+            return 'darkpink';
+        case 8:
+            return 'darkolivegreen';
+        case 9:
+            return 'darkslategrey';
     }
 }
 
