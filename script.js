@@ -1,5 +1,5 @@
 // create 2d array of tiles in a 10 x 10 grid
-let twoDimensionalArray = [
+let board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -11,18 +11,19 @@ let twoDimensionalArray = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];  // 10 x 10
+const size = 10
+const numBombs = 10;
 
 function initializeBoard() {
-    const size = 10
-    const numBombs = 10;
+    
 
     // randomly populate grid with 10 bombs
     let placedBombs = 0;
     while (placedBombs < numBombs) {
         let row = Math.floor(Math.random() * size);  // randomly generates row number from 0 to 9
         let col = Math.floor(Math.random() * size);  // randomly generates col number from 0 to 9
-        if (twoDimensionalArray[row][col] === 0) {
-            twoDimensionalArray[row][col] = -1;     // this tile is now a bomb (-1)
+        if (board[row][col] === 0) {
+            board[row][col] = -1;     // this tile is now a bomb (-1)
             placedBombs += 1;
         } 
     }
@@ -34,33 +35,59 @@ function initializeBoard() {
         [1,-1],  [1,0],  [1,1]
     ];
 
-    for (row = 0; row < size; row++) {
-        for (col = 0; col < size; col++) {
-            if (twoDimensionalArray[row][col] != -1) {  // tile is not a bomb
+    for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+            if (board[row][col] != -1) {  // tile is not a bomb
                 
                 let nearbyBombs = 0;
 
                 // check each direction in tile's proximity for bombs
                 for (let [dx,dy] of directions) {
-                    let newRow = rowIndex+dx;
-                    let newCol = colIndex+dy;
+                    let newRow = row+dx;
+                    let newCol = col+dy;
                     if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
                         // array indexes are valid
-                        if (twoDimensionalArray[newRow][newCol] === -1) {
+                        if (board[newRow][newCol] === -1) {
                             nearbyBombs++;
                         }
                     }
                 }
 
                 // update 2d array tile with number of bombs
-                twoDimensionalArray[row][col] = nearbyBombs;
+                board[row][col] = nearbyBombs;
             }
         }
     }
 
-    
-    return twoDimensionalArray.json();
+    return board;
 }
+
+function displayBoard() {
+    const gridContainer = document.getElementById("board");
+    gridContainer.innerHTML = '';  // clear the board before populating it
+
+    for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+            // create grid item
+            const tile = document.createElement("div");
+            tile.className = "grid-item";
+            tile.dataset.row = row;
+            tile.dataset.col = col;
+
+            // make it clickable
+            tile.addEventListener("click", () => {
+                tile.innerHTML = board[row][col] === -1 ? '💣' : board[row][col];
+                tile.style.backgroundColor = '#bbb';
+            });
+
+            // add grid item to grid container
+            gridContainer.appendChild(tile);
+        }
+    }
+}
+
+initializeBoard();
+displayBoard();
 
 // read input for difficulty level: easy, medium, hard (possible implementation: drop down menu?)
     //  easy: 10 by 10, 10 bombs
