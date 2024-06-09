@@ -103,6 +103,9 @@ function revealTiles(tile) {
         return;
     }
 
+    tile.classList.add('revealed');
+    revealedTiles++;
+
     if (value === -1) {     // is a bomb
         tile.innerHTML = '💣';
         tile.style.backgroundColor = 'red';
@@ -126,7 +129,7 @@ function revealTiles(tile) {
 
     // assign light or dark brown color for checkered board pattern 
     if (tile.dataset.value != -1) {    // bomb tiles are red
-        if ((tile.dataset.row%2 === 0 && tile.dataset.col%2 === 0) || (tile.dataset.row%2 === 1 && tile.dataset.col%2 === 1)) {
+        if (tile.classList.contains('grid-item-light')) {
             tile.style.backgroundColor = 'rgb(255, 242, 171)';    // light
         } else {
             tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
@@ -134,14 +137,11 @@ function revealTiles(tile) {
     }
 
     tile.style.cursor = 'default';  // resets cursor to default
-
-    tile.classList.add('revealed');
-    revealedTiles++;
+    
     /* TODO: 
     if (revealedTiles === (size * size) - numBombs) {
         gameOverWin();
     } */
-    
 }
 
 function getTextColor(num) {
@@ -165,6 +165,14 @@ function getTextColor(num) {
         case 9:
             return 'darkslategrey';
     }
+}
+
+function gameOverWin() {
+
+}
+
+function gameOverLose() {
+
 }
 
 initializeBoard();
