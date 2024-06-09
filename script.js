@@ -109,7 +109,7 @@ function revealTiles(tile) {
     if (value === -1) {     // is a bomb
         tile.innerHTML = '💣';
         tile.style.backgroundColor = 'red';
-        // TODO: gameOverLose();
+        gameOver('lose');
     } else if (value > 0) { // has nearby bombs
         tile.innerHTML = value;
         tile.style.color = getTextColor(value);   
@@ -135,13 +135,10 @@ function revealTiles(tile) {
             tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
         }
     }
-
-    tile.style.cursor = 'default';  // resets cursor to default
     
-    /* TODO: 
     if (revealedTiles === (size * size) - numBombs) {
-        gameOverWin();
-    } */
+        gameOver('win');
+    }
 }
 
 function getTextColor(num) {
@@ -167,41 +164,19 @@ function getTextColor(num) {
     }
 }
 
-function gameOverWin() {
+function gameOver(winOrLose) {
+    // left side of screen: "you win" or "you lose" text
+    const winLose = document.getElementById("win-lose-text");
+    if (winOrLose === 'win') {
+        winLose.textContent = 'You Win!';
+    } else {
+        winLose.textContent = 'Game Over :(';
+    }
 
-}
-
-function gameOverLose() {
+    // right side of screen: score + stats
+    const score = document.getElementById("score-text");
 
 }
 
 initializeBoard();
 displayBoard();
-
-// read input for difficulty level: easy, medium, hard (possible implementation: drop down menu?)
-    //  easy: 10 by 10, 10 bombs
-    //  medium: 15 by 15, 30 bombs
-    //  hard: 20 by 20, 50 bombs
-// note: can make a customizable difficulty where player selects board dimensions and num of bombs?
-
-// create 2d array [n][m]
-// populate array with random bomb spots or empty spots
-
-// generate board with clickable green tiles (n x m)
-    // (indicate when a tile is hovered over)
-// tile properties:
-    // isBomb, isRevealed, numNearbyBombs
-    // if isBomb != 0, numNearbyBombs does not matter
-    // if isBomb == 0 and numNearbyBombs == 0, it is an empty tile
-
-// player clicks a tile... (recursive function)
-    // note: to check around tile[a][b] check these spots...
-    //  [a-1][b-1]      [a-1][b]      [a-1][b+1]
-    //  [a][b-1]        [a][b]        [a][b+1]
-    //  [a+1][b-1]      [a+1][b]      [a+1][b+1] 
-// if tile has no bombs around it, reveal all tiles surrounding it 
-//      (until you get to a tile with a bomb nearby)
-// if tile has bombs around it, reveal how many
-// if tile is a bomb, game over
-
-// other notes: add a timer, and update remaining count of bombs
