@@ -1,16 +1,5 @@
 // create 2d array of tiles in a 10 x 10 grid
-let board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];  // 10 x 10
+let board = [];
 const size = 10
 const numBombs = 10;
 const directions = [
@@ -22,8 +11,14 @@ const directions = [
 let revealedTiles = 0;
 
 function initializeBoard() {
+    // hide game over texts
+    document.getElementById("win-lose-text").classList.add('hidden');
+    document.getElementById("score-text").classList.add('hidden');
+    document.getElementById("play-again-btn").classList.add('hidden');
+
     // clear board
-    board = [
+    board = Array(size).fill().map(() => Array(size).fill(0));
+    /*board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -34,7 +29,7 @@ function initializeBoard() {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
+    ];*/
     revealedTiles = 0;
     let placedBombs = 0;
     
@@ -181,6 +176,7 @@ function getTextColor(num) {
 function gameOver(winOrLose) {
     // left side of screen: "you win" or "you lose" text
     const winLose = document.getElementById("win-lose-text");
+    winLose.classList.remove('hidden');
     if (winOrLose === 'win') {
         winLose.textContent = 'You Win!';
     } else {
@@ -189,10 +185,17 @@ function gameOver(winOrLose) {
 
     // right side of screen: score + stats
     const score = document.getElementById("score-text");
+    score.classList.remove('hidden');
+    score.textContent = "Your score is lorem ipsum."
 
+    document.getElementById('play-again-btn').classList.remove('hidden');
 }
 
-// BUTTONS SWITCHING BETWEEN PAGES
+// BUTTONS
+
+document.getElementById('play-again-btn').addEventListener('click', function() {
+    initializeBoard();
+});
 
 function switchScreens(fromScreen, toScreen) {
     document.getElementById(fromScreen).classList.add('hidden');
