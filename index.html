@@ -6,9 +6,46 @@
     <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="board" class="grid-container"></div>
-    <div id="win-lose-text" class="game-over-text"></div>
-    <div id="score-text" class="game-over-text"></div>
+    <div id="start-screen" class="screen">
+        <img src="art/minesweeper.png" width="75%">
+        <img src="art/bomb.png" width="200px">
+        <div id="start-screen-buttons">
+            <button id="start-game-btn">PLAY</button>
+            <!--<input id="play" type="submit" onclick="initializeBoard()" value="PLAY" />-->
+            <button id="home-to-rules-btn">RULES</button>
+            <button id="home-to-credits-btn">CREDITS</button>
+        </div>
+    </div>
+
+    <div id="rules-screen" class="screen hidden">
+        <h3>The rules are of minesweeper are simple: <b>avoid the mines!</b></h3>
+        <br>
+        <p>Select a tile to reveal what's hidden underneath. If there's a bomb, it's <b>game over.</b></p>
+        <br>
+        <p>Sometimes, the tile you click on will have one or more bombs in their direct proximity.</p>
+        <p>If this is the case, the tile will have a number indicating how many bombs are near them.</p>
+        <br>
+        <p>Other times, you will click on a tile with no bombs near them.</p>
+        <p>In this case, the area surrounding the tile will be revealed <b>until</b> it reaches a tile with a nearby bomb.</p>
+        <br>
+        <p>These numbered tiles are clues to identify where the bombs are placed.</p>
+        <h3><b>Avoid the bombs and reveal all the safe tiles to win!</b></h3>
+        <button id="rules-to-home-btn">BACK</button>
+    </div>
+
+    <div id="credits-screen" class="screen hidden">
+        <h3>This minesweeper dupe was made with love by Victoria Vo :]</h3>
+        <p>Thanks for checking it out! Hope you have fun.</p>
+        <p>Contacts: lorem ipsum</p>
+        <button id="credits-to-home-btn">BACK</button>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div id="board" class="grid-container"></div>
+        <div id="win-lose-text" class="game-over-text"></div>
+        <div id="score-text" class="game-over-text"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

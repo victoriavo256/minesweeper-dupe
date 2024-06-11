@@ -22,9 +22,23 @@ const directions = [
 let revealedTiles = 0;
 
 function initializeBoard() {
+    // clear board
+    board = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    revealedTiles = 0;
+    let placedBombs = 0;
     
     // randomly populate grid with 10 bombs
-    let placedBombs = 0;
     while (placedBombs < numBombs) {
         let row = Math.floor(Math.random() * size);  // randomly generates row number from 0 to 9
         let col = Math.floor(Math.random() * size);  // randomly generates col number from 0 to 9
@@ -59,7 +73,7 @@ function initializeBoard() {
         }
     }
 
-    return board;
+    displayBoard();
 }
 
 function displayBoard() {
@@ -178,5 +192,34 @@ function gameOver(winOrLose) {
 
 }
 
-initializeBoard();
-displayBoard();
+// BUTTONS SWITCHING BETWEEN PAGES
+
+function switchScreens(fromScreen, toScreen) {
+    document.getElementById(fromScreen).classList.add('hidden');
+    document.getElementById(toScreen).classList.remove('hidden');
+}
+
+document.getElementById('start-game-btn').addEventListener('click', function() {
+    switchScreens('start-screen', 'game-screen');
+    initializeBoard();
+});
+
+document.getElementById('home-to-rules-btn').addEventListener('click', function() {
+    switchScreens('start-screen', 'rules-screen');
+});
+
+
+document.getElementById('rules-to-home-btn').addEventListener('click', function() {
+    switchScreens('rules-screen', 'start-screen');
+});
+
+document.getElementById('home-to-credits-btn').addEventListener('click', function() {
+    switchScreens('start-screen', 'credits-screen');
+});
+
+document.getElementById('credits-to-home-btn').addEventListener('click', function() {
+    switchScreens('credits-screen', 'start-screen');
+});
+
+//initializeBoard();
+//displayBoard();

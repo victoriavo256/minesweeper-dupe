@@ -1,5 +1,23 @@
 body {
-    background-color: lightgreen;
+    background-color: rgb(184, 248, 132);
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .grid-container {
@@ -33,22 +51,6 @@ body {
 
 .revealed {
     cursor: default;
-}
-
-#overlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 30px;
-    z-index: 9999;
-    display: none;
 }
 
 #win-lose-text {
