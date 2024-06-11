@@ -8,10 +8,10 @@
 <body>
     <div id="start-screen" class="screen">
         <img src="art/minesweeper.png" width="75%">
-        <img src="art/bomb.png" width="200px">
+        <img src="art/explosion.png" width="200px" class="hidden" id="title-explosion">
+        <img src="art/bomb.png" width="200px" class="animated-image" id="title-bomb">
         <div id="start-screen-buttons">
             <button id="start-game-btn">PLAY</button>
-            <!--<input id="play" type="submit" onclick="initializeBoard()" value="PLAY" />-->
             <button id="home-to-rules-btn">RULES</button>
             <button id="home-to-credits-btn">CREDITS</button>
         </div>
@@ -41,6 +41,7 @@
     </div>
 
     <div id="game-screen" class="screen hidden">
+        <img src="art/minesweeper.png" width="75%">
         <div id="board" class="grid-container"></div>
         <div id="win-lose-text" class="game-over-text"></div>
         <div id="score-text" class="game-over-text"></div>

@@ -25,9 +25,7 @@ button {
     grid-template-columns: repeat(10, 50px);    /* 10 columns of auto-fitted size */
     grid-template-rows: repeat(10, 50px);
     gap: 0px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 75px;
+    margin-top: 15px;
 }
 
 .grid-item {
@@ -53,6 +51,32 @@ button {
     cursor: default;
 }
 
+@keyframes scaleUpAndDownAnimation {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.animated-image {
+    animation: scaleUpAndDownAnimation 2s infinite; /* 2s duration, infinite loop */
+}
+
+@keyframes explodeAnimation {
+    0% {
+        transform: scale(0.5);
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+#title-explosion {
+    animation: explodeAnimation 2s;
+}
+
 #win-lose-text {
     top: 50%;
     left: 10px;
@@ -72,4 +96,8 @@ button {
     font-size: 100px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
+}
+
+#game-screen img {
+    margin-top: -20px;
 }

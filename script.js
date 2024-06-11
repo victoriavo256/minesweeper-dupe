@@ -203,8 +203,12 @@ function switchScreens(fromScreen, toScreen) {
 }
 
 document.getElementById('start-game-btn').addEventListener('click', function() {
-    switchScreens('start-screen', 'game-screen');
+    document.getElementById('title-bomb').classList.add('hidden');
+    document.getElementById('title-explosion').classList.remove('hidden');
+    setTimeout(function() {
+        switchScreens('start-screen', 'game-screen');
     initializeBoard();
+    }, 2000); // Wait for 2 seconds
 });
 
 document.getElementById('home-to-rules-btn').addEventListener('click', function() {
