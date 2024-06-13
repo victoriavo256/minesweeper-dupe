@@ -1,5 +1,6 @@
 // create 2d array of tiles in a 10 x 10 grid
 let board = [];
+let timer;
 const size = 10
 const numBombs = 10;
 const directions = [
@@ -11,6 +12,8 @@ const directions = [
 let revealedTiles = 0;
 
 function initializeBoard() {
+    resetTimer();
+
     // hide game over texts
     document.getElementById("win-lose-text").classList.add('hidden');
     document.getElementById("score-text").classList.add('hidden');
@@ -100,6 +103,25 @@ function displayBoard() {
             gridContainer.appendChild(tile);
         }
     }
+    
+    startTimer();
+}
+
+function startTimer() {
+    timer = setInterval(() => {
+        seconds++;
+        document.getElementById('timer').innerText = `Time: ${seconds}`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    seconds = 0;
+    document.getElementById('timer').innerText = `Time: ${seconds}`;
 }
 
 // recursive function
@@ -175,6 +197,7 @@ function getTextColor(num) {
 
 function gameOver(winOrLose) {
     // left side of screen: "you win" or "you lose" text
+    stopTimer();
     const winLose = document.getElementById("win-lose-text");
     winLose.classList.remove('hidden');
     if (winOrLose === 'win') {
@@ -226,6 +249,12 @@ document.getElementById('home-to-credits-btn').addEventListener('click', functio
 
 document.getElementById('credits-to-home-btn').addEventListener('click', function() {
     switchScreens('credits-screen', 'start-screen');
+});
+
+document.getElementById('game-to-home-btn').addEventListener('click', function() {
+    document.getElementById('title-explosion').classList.add('hidden');
+    document.getElementById('title-bomb').classList.remove('hidden');
+    switchScreens('game-screen', 'start-screen');
 });
 
 //initializeBoard();

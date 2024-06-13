@@ -77,6 +77,16 @@ button {
     animation: explodeAnimation 2s;
 }
 
+#timer {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#game-to-home-btn {
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
 #win-lose-text {
     top: 50%;
     left: 10px;
