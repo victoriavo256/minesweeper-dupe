@@ -16,7 +16,7 @@ let board = [];
 let timer;
 let gameover;
 const size = 10
-const numBombs = 30;
+const numBombs = 20;
 const directions = [
     [-1,-1], [-1,0], [-1,1],
     [0,-1],          [0,1],
