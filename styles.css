@@ -132,10 +132,8 @@ button {
 }
 
 #win-lose-image {
-    display: block;
     margin-top: 20px;
     width: 250px;
-    
 }
 
 #play-again-btn {
