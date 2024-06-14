@@ -6,6 +6,22 @@
     <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
+
+    <audio id="casual-bgm" loop>
+        <source src="audio/Bit Shift.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="game-bgm" loop>
+        <source src="audio/Bit Quest.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="bomb-sound">
+        <source src="audio/explosion.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div id="start-screen" class="screen">
         <img src="art/minesweeper.png" width="75%">
         <img src="art/explosion.png" width="200px" class="hidden" id="title-explosion">
@@ -18,26 +34,43 @@
     </div>
 
     <div id="rules-screen" class="screen hidden">
-        <h3>The rules are of minesweeper are simple: <b>avoid the mines!</b></h3>
-        <br>
-        <p>Select a tile to reveal what's hidden underneath. If there's a bomb, it's <b>game over.</b></p>
-        <br>
-        <p>Sometimes, the tile you click on will have one or more bombs in their direct proximity.</p>
-        <p>If this is the case, the tile will have a number indicating how many bombs are near them.</p>
-        <br>
-        <p>Other times, you will click on a tile with no bombs near them.</p>
-        <p>In this case, the area surrounding the tile will be revealed <b>until</b> it reaches a tile with a nearby bomb.</p>
-        <br>
-        <p>These numbered tiles are clues to identify where the bombs are placed.</p>
-        <h3><b>Avoid the bombs and reveal all the safe tiles to win!</b></h3>
+        <u>The rules of minesweeper are simple: <b>avoid the bombs!</b></u>
+        <br><br>
+        <ul>
+            <li>Select a tile to reveal what's hidden underneath.</li>
+            <li>A numbered tile indicates the number of bombs in the tile's proximity.</li>
+            <li>Avoid the bombs and reveal all the safe tiles to win!</li>
+        </ul>
+        <br><br>
+        <u>Good Luck!</u>
+        <br><br>
         <button id="rules-to-home-btn">BACK</button>
     </div>
 
     <div id="credits-screen" class="screen hidden">
-        <h3>This minesweeper dupe was made with love by Victoria Vo :]</h3>
-        <p>Thanks for checking it out! Hope you have fun.</p>
-        <p>Contacts: lorem ipsum</p>
         <button id="credits-to-home-btn">BACK</button>
+
+        <p>This minesweeper dupe was made by Victoria Vo :]<br>
+            Thanks for checking it out! Hope you have fun.</p>
+        <u>My Contacts:</u>
+        <ul>
+            <li><a href src='https://github.com/victoriavo256'>GitHub</a> (You can find the original source code for this dupe here!)</li>
+        </ul>
+
+        <u>Music and Sounds</u>
+        <ul>
+            <li>"Bit Quest" Kevin MacLeod (incompetech.com)<br>
+                Licensed under Creative Commons: By Attribution 4.0 License<br>
+                http://creativecommons.org/licenses/by/4.0/
+            </li>
+
+            <li>"Bit Shift" Kevin MacLeod (incompetech.com)<br>
+                Licensed under Creative Commons: By Attribution 4.0 License<br>
+                http://creativecommons.org/licenses/by/4.0/
+            </li>
+
+            <li>Explosion 4 by deleted_user_3544904 <br> https://freesound.org/s/191694/ <br> License: Attribution NonCommercial 3.0</li> 
+        </ul>
     </div>
 
     <div id="game-screen" class="screen hidden">
@@ -45,9 +78,11 @@
         <img src="art/minesweeper.png" width="75%">
         <div id="board" class="grid-container"></div>
         <div id="timer">Time: 0</div>
-        <div id="win-lose-text" class="game-over-text"></div>
-        <div id="score-text" class="game-over-text"></div>
-        <button id="play-again-btn">PLAY AGAIN</button>
+        <div id="win-lose-section">
+            <div id="win-lose-text"></div>
+            <img id="win-lose-image">
+        </div>
+        <button id="play-again-btn" class="animated-image">PLAY AGAIN?</button>
     </div>
 
     <script src="script.js"></script>

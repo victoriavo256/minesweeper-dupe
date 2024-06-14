@@ -1,8 +1,22 @@
+// play bgm
+document.addEventListener('DOMContentLoaded', (event) => {
+    const bgm = document.getElementById('casual-bgm');
+    bgm.volume = 0.7;
+    bgm.play().catch(error => {
+        console.log('Auto-play was prevented. Click the screen to start the audio.');
+    });
+
+    document.addEventListener('click', () => {
+        bgm.play();
+    }, { once: true });
+});
+
 // create 2d array of tiles in a 10 x 10 grid
 let board = [];
 let timer;
+let gameover;
 const size = 10
-const numBombs = 10;
+const numBombs = 30;
 const directions = [
     [-1,-1], [-1,0], [-1,1],
     [0,-1],          [0,1],
@@ -12,27 +26,19 @@ const directions = [
 let revealedTiles = 0;
 
 function initializeBoard() {
+    switchAudio('casual-bgm', 'game-bgm');
+    
+    gameover = false;
     resetTimer();
 
     // hide game over texts
     document.getElementById("win-lose-text").classList.add('hidden');
-    document.getElementById("score-text").classList.add('hidden');
+    document.getElementById("win-lose-image").classList.add('hidden');
     document.getElementById("play-again-btn").classList.add('hidden');
 
     // clear board
     board = Array(size).fill().map(() => Array(size).fill(0));
-    /*board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];*/
+
     revealedTiles = 0;
     let placedBombs = 0;
     
@@ -126,6 +132,10 @@ function resetTimer() {
 
 // recursive function
 function revealTiles(tile) {
+    if (gameover === true) {
+        return;
+    }
+
     const row = Number(tile.dataset.row);
     const col = Number(tile.dataset.col);
     const value = Number(tile.dataset.value);
@@ -138,9 +148,39 @@ function revealTiles(tile) {
     revealedTiles++;
 
     if (value === -1) {     // is a bomb
+        gameover = true;
+
         tile.innerHTML = '💣';
         tile.style.backgroundColor = 'red';
-        gameOver('lose');
+
+        // makes the cursor default when hovering over tiles
+        const allTiles = document.querySelectorAll('.grid-item');
+        allTiles.forEach(tile => {
+            tile.classList.add('revealed');
+        });
+
+        // create explosion image
+        const explosion = document.createElement('img');
+        explosion.src = 'art/explosion.png';
+        explosion.classList.add('explosion');
+        
+        // position the explosion over the tile
+        explosion.style.left = `${tile.offsetLeft}px`;
+        explosion.style.top = `${tile.offsetTop + 20}px`;
+
+        // add explosion image to the game screen
+        const gameScreen = document.getElementById('game-screen');
+        gameScreen.appendChild(explosion);
+
+        // pause game bgm and play bomb sound
+        switchAudio('game-bgm', 'bomb-sound');
+
+        // remove the explosion image after 1 second
+        setTimeout(() => {
+            gameScreen.removeChild(explosion);
+            gameOver('lose');
+        }, 1000);
+
     } else if (value > 0) { // has nearby bombs
         tile.innerHTML = value;
         tile.style.color = getTextColor(value);   
@@ -196,20 +236,21 @@ function getTextColor(num) {
 }
 
 function gameOver(winOrLose) {
+    document.getElementById('casual-bgm').play();
+
     // left side of screen: "you win" or "you lose" text
     stopTimer();
     const winLose = document.getElementById("win-lose-text");
     winLose.classList.remove('hidden');
+    const winLoseImage = document.getElementById("win-lose-image");
+    winLoseImage.classList.remove('hidden');
     if (winOrLose === 'win') {
         winLose.textContent = 'You Win!';
+        winLoseImage.src = 'art/you-win.png';
     } else {
-        winLose.textContent = 'Game Over :(';
+        winLose.textContent = 'You Lose :(';
+        winLoseImage.src = 'art/you-lose.png';
     }
-
-    // right side of screen: score + stats
-    const score = document.getElementById("score-text");
-    score.classList.remove('hidden');
-    score.textContent = "Your score is lorem ipsum."
 
     document.getElementById('play-again-btn').classList.remove('hidden');
 }
@@ -225,12 +266,32 @@ function switchScreens(fromScreen, toScreen) {
     document.getElementById(toScreen).classList.remove('hidden');
 }
 
+function switchAudio(fromAudio, toAudio) {
+    // pause and reset fromAudio
+    const fromAudioElement = document.getElementById(fromAudio);
+    fromAudioElement.pause();
+    fromAudioElement.currentTime = 0;
+    // stagger pause and play times so that audio reliably plays 
+    // (avoids one audio task being prioritized over another)
+    setTimeout(() => {
+        const toAudioElement = document.getElementById(toAudio);
+        toAudioElement.play().then(() => {
+            if (callback) {
+                callback();
+            }
+        }).catch(error => {
+            console.error(`Failed to play ${toAudio}:`, error);
+        });
+    }, 100);
+}
+
 document.getElementById('start-game-btn').addEventListener('click', function() {
     document.getElementById('title-bomb').classList.add('hidden');
     document.getElementById('title-explosion').classList.remove('hidden');
+    switchAudio('casual-bgm', 'bomb-sound');
     setTimeout(function() {
         switchScreens('start-screen', 'game-screen');
-    initializeBoard();
+        initializeBoard();
     }, 2000); // Wait for 2 seconds
 });
 
@@ -254,8 +315,6 @@ document.getElementById('credits-to-home-btn').addEventListener('click', functio
 document.getElementById('game-to-home-btn').addEventListener('click', function() {
     document.getElementById('title-explosion').classList.add('hidden');
     document.getElementById('title-bomb').classList.remove('hidden');
+    switchAudio('game-bgm', 'casual-bgm');
     switchScreens('game-screen', 'start-screen');
 });
-
-//initializeBoard();
-//displayBoard();

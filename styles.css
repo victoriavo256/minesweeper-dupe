@@ -1,5 +1,15 @@
+@font-face {
+    font-family: 'Upheaval';
+    src: url('font/UpheavalPro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    background-color: rgb(184, 248, 132);
+    background-color: rgb(175, 243, 112);
+    font-family: Upheaval, OCR A Std, monospace;
+    font-size: 25px;
+    color: #5c1e1c;
 }
 
 .screen {
@@ -15,9 +25,14 @@ body {
 }
 
 button {
+    background-color: #d16630;
+    font-family: Upheaval, OCR A Std, monospace;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 25px;
     cursor: pointer;
+    color: #5c1e1c;
+    border: 3px solid #5c1e1c;
+    text-align: center;
 }
 
 .grid-container {
@@ -25,7 +40,7 @@ button {
     grid-template-columns: repeat(10, 50px);    /* 10 columns of auto-fitted size */
     grid-template-rows: repeat(10, 50px);
     gap: 0px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .grid-item {
@@ -35,7 +50,7 @@ button {
     justify-content: center;    /* aligns the whole grid within its container */
     align-items: center;        /* VERTICALLY aligns the whole grid within its container */
     cursor: pointer;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Upheaval, OCR A Std, monospace;
     font-size: 25;
 }
 
@@ -73,41 +88,70 @@ button {
     }
 }
 
+.explosion {
+    position: absolute;
+    animation: scaleUpAndDownAnimation 1s;
+    width: 51px;
+    height: 51px;
+}
+
+#start-screen-buttons {
+    margin-top: 5px;
+}
+
 #title-explosion {
     animation: explodeAnimation 2s;
 }
 
 #timer {
+    margin-top: 5px;
     font-size: 24px;
     margin-bottom: 10px;
+    color: #5c1e1c;
+    font-family: Upheaval, OCR A Std, monospace;
 }
 
 #game-to-home-btn {
-    margin-top: 0px;
-    margin-left: 0px;
-}
-
-#win-lose-text {
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    margin-left: 50px;
-}
-
-#score-text {
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    margin-right: 50px;
-}
-
-.game-over-text {
     position: absolute;
-    font-size: 100px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    top: 10px;
+    left: 10px;
+}
+
+#win-lose-section {
+    position: absolute;
+    top: 50%;
+    left: 60px;
+    transform: translateY(-25%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 50px;
+    font-family: Upheaval, OCR A Std, monospace;
+    color: #5c3b1c;
+    text-align: left;
+}
+
+#win-lose-image {
+    display: block;
+    margin-top: 20px;
+    width: 250px;
+    
+}
+
+#play-again-btn {
+    position: absolute;
+    top: 50%;
+    right: 75px;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 #game-screen img {
     margin-top: -20px;
+}
+
+#rules-to-home-btn {
+    margin-top: 15px;
 }
