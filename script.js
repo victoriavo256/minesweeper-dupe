@@ -238,18 +238,29 @@ function getTextColor(num) {
 function gameOver(winOrLose) {
     document.getElementById('casual-bgm').play();
 
-    // left side of screen: "you win" or "you lose" text
     stopTimer();
+
     const winLose = document.getElementById("win-lose-text");
-    winLose.classList.remove('hidden');
     const winLoseImage = document.getElementById("win-lose-image");
+    winLose.classList.remove('hidden');
     winLoseImage.classList.remove('hidden');
+    
+    const allTiles = document.querySelectorAll('.grid-item');
+
     if (winOrLose === 'win') {
         winLose.textContent = 'You Win!';
         winLoseImage.src = 'art/you-win.png';
     } else {
         winLose.textContent = 'You Lose :(';
         winLoseImage.src = 'art/you-lose.png';
+
+        // reveals all bomb tiles
+        allTiles.forEach(tile => {
+            if (tile.dataset.value === '-1') {
+                tile.innerHTML = '💣';
+                tile.style.backgroundColor = 'red';
+            }
+        });
     }
 
     document.getElementById('play-again-btn').classList.remove('hidden');
