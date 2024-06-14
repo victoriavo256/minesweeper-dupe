@@ -181,20 +181,26 @@ function revealTiles(tile) {
             gameOver('lose');
         }, 1000);
 
-    } else if (value > 0) { // has nearby bombs
+    } else  {
+        if (value > 0) { // has nearby bombs
         tile.innerHTML = value;
         tile.style.color = getTextColor(value);   
-    } else {                // empty tile (recursively reveals nearby tiles!)
-        for (let [dx,dy] of directions) {
-            let newRow = row + dx;
-            let newCol = col + dy;
-            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
-                const adjTile = document.querySelector(`.grid-item[data-row='${newRow}'][data-col='${newCol}']`);
-                if (adjTile) {
-                    revealTiles(adjTile);
+        } else {                // empty tile (recursively reveals nearby tiles!)
+            for (let [dx,dy] of directions) {
+                let newRow = row + dx;
+                let newCol = col + dy;
+                if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
+                    const adjTile = document.querySelector(`.grid-item[data-row='${newRow}'][data-col='${newCol}']`);
+                    if (adjTile) {
+                        revealTiles(adjTile);
+                    }
+                    
                 }
-                
             }
+        }
+
+        if (revealedTiles === (size * size) - numBombs) {
+            gameOver('win');
         }
     }
 
@@ -205,10 +211,6 @@ function revealTiles(tile) {
         } else {
             tile.style.backgroundColor = 'rgb(247, 207, 121)';    // dark
         }
-    }
-    
-    if (revealedTiles === (size * size) - numBombs) {
-        gameOver('win');
     }
 }
 
