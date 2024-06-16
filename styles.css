@@ -35,6 +35,11 @@ button {
     text-align: center;
 }
 
+button:hover {
+    background-color: #fa864c;
+    color: #5c1e1c;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(10, 50px);    /* 10 columns of auto-fitted size */

@@ -1,4 +1,5 @@
-// play bgm
+// when program is starting, this autoplays the bgm unless autoplay is blocked by the browser,
+// then bgm starts playing when the user has clicked something
 document.addEventListener('DOMContentLoaded', (event) => {
     const bgm = document.getElementById('casual-bgm');
     bgm.volume = 0.7;
