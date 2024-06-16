@@ -101,9 +101,15 @@ function displayBoard() {
                 tile.classList.add("grid-item-dark");
             }
 
-            // when clicked, reveals bomb or number of nearby bombs
+            // when left/regular-clicked, reveals bomb or number of nearby bombs
+            // when right-clicked, marks tile with flag
             tile.addEventListener("click", () => {
                 revealTiles(tile);
+            });
+
+            tile.addEventListener("contextmenu", (event) => {
+                event.preventDefault();
+                flagTile(tile);
             });
 
             // add grid item to grid container
@@ -129,6 +135,19 @@ function resetTimer() {
     clearInterval(timer);
     seconds = 0;
     document.getElementById('timer').innerText = `Time: ${seconds}`;
+}
+
+function flagTile(tile) {
+    // check that tile is not revealed
+    if (!tile.classList.contains('revealed')) {
+        if (tile.innerHTML != '🚩') {
+            // adds flag
+            tile.innerHTML = '🚩';
+        } else {
+            // removes flag
+            tile.innerHTML = '';
+        }
+    }
 }
 
 // recursive function
